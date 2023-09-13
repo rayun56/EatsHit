@@ -1,10 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'docmtu/base.html' %}
+{% load static %}
+
+{% block nav_about %}active{% endblock %}
+
+{% block embed %}
+    <meta content="About" property="og:title">
+    <meta content="EatsHit.tech" property="og:site_name">
+    <meta content="https://EatsHit.tech/about" property="og:url">
+    <meta content="https://EatsHit.tech/static/docmtu/favicon.png" property="og:image">
+    <meta content="A better way to dine on campus" property="og:description">
+    <meta content="#face0d" data-react-helmet="true" name="theme-color">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div id="about-text" class="col-md-12" style="text-align: center">
+                <h1>What?</h1>
+                <p>EatsHit is a webapp made to give easier access to menus for Michigan Tech's dining halls.</p>
+                <h1>Why?</h1>
+                <p>DineOnCampus's website is slow, unresponsive, confusingly laid out, and borderline broken at times.</p>
+                <h1>How?</h1>
+                <p>As bad as their website is, DineOnCampus actually has a very navigable API. Looking at the HTTP requests while navigating the official site was enough for me to reverse engineer their backend API to make my own requests.</p>
+                <h1>Where?</h1>
+                <p>Uh, <a class="link-light" href="/">here. EatsHit.tech.</a></p>
+                <h1>Who?</h1>
+                <p>As you might have guessed, I'm a student at MTU. You can contact me at <a class="link-light" href="mailto:goand@eatshit.tech">goand@EatsHit.tech</a>, or check out my personal website <a href="https://rayun.dev">rayun.dev</a></p>
+                <h1>When?</h1>
+                <p>I would like to keep this site running as long as I have the ability to keep hosting it, and presumably as long as MTU sticks with DineOnCampus.</p>
+                <h1>Is this legal?</h1>
+                <p>¯\_(ツ)_/¯</p>
+                <p>If it gets shut down, then it gets shut down.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

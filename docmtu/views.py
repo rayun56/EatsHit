@@ -4,7 +4,6 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.utils import timezone
 
-from .helpers import collect_menu
 from .models import DiningLocation, Menu
 
 
@@ -13,7 +12,7 @@ def index(request):
     today = timezone.now().astimezone(tz=timezone.get_current_timezone()).date()
     for men in Menu.objects.all().filter(visible=True).order_by('date'):
         menu_date = {
-            'str': men.date.strftime('%b %d, %Y') + (" (Today)" if men.date == today else ""),
+            'str': men.date.strftime('%a, %b %d, %Y') + (" (Today)" if men.date == today else ""),
             'id': men.date.strftime('%Y-%m-%d')
         }
         if menu_date not in dates and men.date >= today:
@@ -22,11 +21,6 @@ def index(request):
         'locations': DiningLocation.objects.all(),
         'dates': dates
     })
-
-
-def test(request):
-    collect_menu(through_date=timezone.now().astimezone(tz=timezone.get_current_timezone()).date() + datetime.timedelta(days=2))
-    return HttpResponse("<p>Things did things!</p>")
 
 
 def dropdown(request):
@@ -68,4 +62,4 @@ def date(request):
 
 
 def about(request):
-    return HttpResponse("<p>Nothing yet</p>")
+    return render(request, 'docmtu/about.html')

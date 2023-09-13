@@ -1,0 +1,39 @@
+@import "./bootstrap/scss/bootstrap";
+
+.btn-outline-primary {
+    @include button-outline-variant(#ffffff, lighten($body-bg-dark, 7.5%), #ffffff, #ffffff);
+};
+
+.period-tab {
+    color: #ffffff;
+    &:hover {
+        color: #ffffff;
+    }
+};
+
+.category-nav {
+    color: darken(#ffffff, 20%);
+    &:hover {
+        color: #ffffff;
+    }
+}
+
+.bg-footer {
+    background-color: lighten($body-bg-dark, 5%);
+}
+
+h1, h5.card-title, .card-text {
+    text-align: center;
+}
+
+p {
+    font-family: 'Carlito', sans-serif;
+}
+
+#about-text > p {
+    font-size: 1.2rem;
+}
+
+#body {
+    margin-bottom: 125px;
+}

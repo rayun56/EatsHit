@@ -25,6 +25,7 @@ class MenuItem(models.Model):
 
 class MenuCategory(models.Model):
     name = models.CharField(max_length=50)
+    category_id = models.CharField(max_length=24, editable=False, default='')
     items = models.ManyToManyField('MenuItem', related_name='categories')
 
     def __str__(self):
@@ -33,6 +34,7 @@ class MenuCategory(models.Model):
     def to_dict(self):
         return {
             'name': self.name,
+            'id': self.category_id,
             'items': [item.to_dict() for item in self.items.all()]
         }
 

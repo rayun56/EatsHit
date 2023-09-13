@@ -3,19 +3,25 @@
 
 {% block nav_index %}active{% endblock %}
 
+{% block head %}
+    <script src="{% static 'docmtu/js/index.js' %}"></script>
+{% endblock %}
+
+{% block embed %}
+    <meta content="EatsHit.tech" property="og:title">
+    <meta content="EatsHit.tech" property="og:site_name">
+    <meta content="https://EatsHit.tech" property="og:url">
+    <meta content="https://EatsHit.tech/static/docmtu/favicon.png" property="og:image">
+    <meta content="A better way to dine on campus" property="og:description">
+    <meta content="#face0d" data-react-helmet="true" name="theme-color">
+{% endblock %}
+
 {% block content %}
     <div class="container">
         <div class="row justify-content-sm-center mt-2">
             <div class="col-sm-auto">
-                <h1>Testing</h1>
-                <button hx-post="{% url 'docmtu:test' %} " hx-trigger="click" hx-target="#test" hx-swap="outerHTML" disabled>Test</button>
-                <p id="test">DONT CLICK THE BUTTON</p>
-            </div>
-        </div>
-        <div class="row justify-content-sm-center mt-2">
-            <div class="col-sm-auto">
                 <div class="dropdown">
-                    <button id="dropdown-main" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button id="dropdown-main" class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Select a location
                     </button>
                     <ul class="dropdown-menu">
@@ -31,7 +37,7 @@
             </div>
             <div class="col-sm-auto">
                 <div class="dropdown">
-                    <button id="date-dropdown-main" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="display: none;">
+                    <button id="date-dropdown-main" class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="display: none;">
                         Today
                     </button>
                     <ul class="dropdown-menu">
@@ -49,22 +55,3 @@
         <div id="location-content"></div>
     </div>
 {% endblock content %}
-
-{% block script %}
-    <script>
-        document.body.addEventListener("updateInfo", function(){
-            let info = document.getElementById("menuData")
-            let loc = info.getAttribute("location_id");
-            for (let i = 0; i < document.getElementsByClassName("date-dropdown-item").length; i++) {
-                let id = document.getElementsByClassName("date-dropdown-item")[i].id;
-                if (id.slice(0, 9) === "location-") {
-                    id = id.slice(id.indexOf("date-"))
-                }
-                document.getElementsByClassName("date-dropdown-item")[i].id = "location-" + loc + "-" + id;
-            }
-            document.getElementById("dropdown-main").innerHTML = info.getAttribute("location_name");
-            document.getElementById("date-dropdown-main").innerHTML = info.getAttribute("date_str");
-            document.getElementById("date-dropdown-main").style.display = "block";
-        });
-    </script>
-{% endblock %}

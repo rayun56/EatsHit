@@ -1,8 +1,8 @@
 import datetime
-import threading
 import hashlib
+import time
 
-from .models import MenuItem, MenuPeriod, DiningLocation, Menu, Change
+from .models import MenuItem, DiningLocation, Menu
 from .doc_wrapper import DOC
 
 
@@ -17,7 +17,7 @@ def _collect_menu_worker(date: datetime.date):
     for location in DiningLocation.objects.all():
         if location.menus.filter(date=date).exists():
             continue
-        location.menus.create(date=date)
+        location.menus.create(date=date, visible=False)
     for menu in Menu.objects.all().filter(date=date):
         menu_location = DiningLocation.objects.get(menus=menu)
         print(f"  Collecting menu for {menu_location.name}")
@@ -28,7 +28,7 @@ def _collect_menu_worker(date: datetime.date):
             print(f"    Collecting menu for {period.name}")
             menu_categories = doc.get_menu(menu_location.location_id, period.period_id, date)['categories']
             for category in menu_categories:
-                cat, _ = period.categories.get_or_create(name=category['name'])
+                cat, _ = period.categories.get_or_create(name=category['name'], category_id=category['id'])
                 for item in category['items']:
                     if type(item['calories']) == float:
                         item['calories'] = str(round(item['calories']))
@@ -43,17 +43,17 @@ def _collect_menu_worker(date: datetime.date):
                         'calories': item['calories']
                     })
                     cat.items.add(menu_item)
+        menu.visible = True
+        menu.save()
         print(f"  Done!")
     print(f"Done!")
 
 
-def _collect_menu(through_date):
+def collect_menu(through_date):
+    start_time = time.perf_counter()
+    i = 0
     for i in range((through_date - datetime.date.today()).days + 1):
         date = datetime.date.today() + datetime.timedelta(days=i)
         _collect_menu_worker(date)
-
-
-def collect_menu(through_date=datetime.date.today()):
-    # Get database up to date through through_date
-    t = threading.Thread(target=_collect_menu, args=(through_date,))
-    t.start()
+    end_time = time.perf_counter()
+    print(f"Updated {i + 1} menu dates in {end_time - start_time:.02f} seconds.")
