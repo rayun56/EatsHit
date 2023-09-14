@@ -18,9 +18,25 @@ def _collect_menu_worker(date: datetime.date):
         if location.menus.filter(date=date).exists():
             continue
         location.menus.create(date=date, visible=False)
+    week = doc.get_weekly_schedule(date)
     for menu in Menu.objects.all().filter(date=date):
         menu_location = DiningLocation.objects.get(menus=menu)
         print(f"  Collecting menu for {menu_location.name}")
+        for weekly in week:
+            if weekly['id'] == menu_location.location_id:
+                for day in weekly['week']:
+                    if day['date'] == date.strftime('%Y-%m-%d'):
+                        if day['closed']:
+                            print(f"    {menu_location.name} is closed on {date.strftime('%Y-%m-%d')}")
+                            menu.closed = True
+                            menu.save()
+                            break
+                        menu.opening_time = datetime.time(hour=day['hours'][0]['start_hour'], minute=day['hours'][0]['start_minutes'])
+                        menu.closing_time = datetime.time(hour=day['hours'][0]['end_hour'], minute=day['hours'][0]['end_minutes'])
+                        menu.save()
+                        break
+        if menu.closed:
+            continue
         periods = doc.get_menu_periods(menu_location.location_id, date)
         for period in periods:
             menu.periods.get_or_create(period_id=period['id'], name=period['name'])

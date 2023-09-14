@@ -69,4 +69,9 @@ class DOC:
             'platform': '0'
         })['menu']['periods']
 
-
+    def get_weekly_schedule(self, date: datetime.date):
+        date_str = date.isoformat()
+        return self.get('/locations/weekly_schedule', params={
+            'site_id': self.site_id,
+            'date': date_str
+        })['the_locations']

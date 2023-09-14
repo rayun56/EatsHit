@@ -32,13 +32,13 @@ def dropdown(request):
     return HttpResponse(response, headers={'HX-Trigger-After-Settle': 'loadDate'})
 
 
-def location(request, date=None):
+def location(request):
     today = timezone.now().astimezone(tz=timezone.get_current_timezone()).date()
-    if date is None:
-        date = today
-    else:
-        date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
     location_id = request.headers['HX-Trigger'].split("-")[1]
+    if len(request.headers['HX-Trigger'].split("-")) > 2:
+        date = datetime.datetime.strptime("-".join(request.headers['HX-Trigger'].split("-")[3:]), '%Y-%m-%d').date()
+    else:
+        date = today
     loc = DiningLocation.objects.get(location_id=location_id)
     menu = loc.menus.get(date=date).to_dict()
     date_info = {

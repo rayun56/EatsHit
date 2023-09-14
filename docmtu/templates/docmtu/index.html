@@ -4,7 +4,7 @@
 {% block nav_index %}active{% endblock %}
 
 {% block head %}
-    <script src="{% static 'docmtu/js/index.js' %}"></script>
+    <script src="{% static 'docmtu/js/index.js?version=1' %}"></script>
 {% endblock %}
 
 {% block embed %}
@@ -19,23 +19,23 @@
 {% block content %}
     <div class="container">
         <div class="row justify-content-sm-center mt-2">
-            <div class="col-sm-auto">
-                <div class="dropdown">
+            <div class="col-sm-auto d-flex justify-content-center">
+                <div class="dropdown mb-2">
                     <button id="dropdown-main" class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Select a location
                     </button>
                     <ul class="dropdown-menu">
                         {% for location in locations %}
-                            <li><button class="dropdown-item" id="location-{{ location.location_id }}" hx-post="{% url 'docmtu:location' %}" hx-target="#location-content" hx-swap="innerHTML">
+                            <li><button class="dropdown-item location-dropdown-item" id="location-{{ location.location_id }}" hx-post="{% url 'docmtu:location' %}" hx-target="#location-content" hx-swap="innerHTML">
                                 {{ location.name }}
                             </button></li>
                         {% empty %}
-                            <li><a class="dropdown-item">No locations found</a></li>
+                            <li><a class="dropdown-item location-dropdown-item">No locations found</a></li>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
-            <div class="col-sm-auto">
+            <div class="col-sm-auto d-flex justify-content-center">
                 <div class="dropdown">
                     <button id="date-dropdown-main" class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="display: none;">
                         Today
@@ -43,7 +43,7 @@
                     <ul class="dropdown-menu">
                         {% for date in dates %}
                             <li>
-                                <button class="dropdown-item date-dropdown-item" id="date-{{ date.id }}" hx-post="{% url 'docmtu:date' %}" hx-target="#location-content" hx-swap="innerHTML">
+                                <button class="dropdown-item date-dropdown-item" id="date-{{ date.id }}" hx-post="{% url 'docmtu:location' %}" hx-target="#location-content" hx-swap="innerHTML">
                                     {{ date.str }}
                                 </button>
                             </li>

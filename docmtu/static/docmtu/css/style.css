@@ -11881,19 +11881,24 @@ textarea.form-control-lg {
   color: #ffffff;
 }
 
+#period-tabs > .nav-item > .nav-link.active {
+  background-color: #4e5862;
+}
+
 .bg-footer {
   background-color: #2c3237;
 }
 
-h1, .h1, h5.card-title, .card-title.h5, .card-text {
+h1, .h1, h5.card-title, .card-title.h5, .card-text, .currently-open {
   text-align: center;
 }
 
 p {
   font-family: "Carlito", sans-serif;
+  text-align: center;
 }
 
-#about-text > p {
+#about-text > p, p.open-hours {
   font-size: 1.2rem;
 }
 

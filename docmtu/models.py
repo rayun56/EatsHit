@@ -1,3 +1,4 @@
+import datetime
 import hashlib
 
 from django.db import models
@@ -66,16 +67,32 @@ class DiningLocation(models.Model):
 
 class Menu(models.Model):
     date = models.DateField()
+    closed = models.BooleanField(default=False)
+    opening_time = models.TimeField(null=True)
+    closing_time = models.TimeField(null=True)
     periods = models.ManyToManyField('MenuPeriod', related_name='menus')
     visible = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.date}'
 
+    def is_open(self):
+        if self.closed:
+            return False
+        now = datetime.datetime.now().time()
+        if self.opening_time and self.closing_time:
+            return self.opening_time <= now <= self.closing_time
+        return False
+
     def to_dict(self):
         return {
             'date': self.date,
-            'periods': [period.to_dict() for period in self.periods.all()]
+            'periods': [period.to_dict() for period in self.periods.all()],
+            'closed': self.closed,
+            'opening_time': self.opening_time.strftime('%I:%M %p') if self.opening_time else None,
+            'closing_time': self.closing_time.strftime('%I:%M %p') if self.closing_time else None,
+            'is_open': self.is_open(),
+            'today': self.date == datetime.datetime.now().date()
         }
 
 

@@ -1,9 +1,29 @@
 <input type="hidden" id="menuData" location_id="{{ location.location_id }}" location_name="{{ location.name }}" date_id="{{ date.id }}" date_str="{{ date.str }}">
 <div class="row justify-content-sm-center mt-2">
     <h1 class="mt-3">{{ location.name }}</h1>
+    {% if not menu.closed %}
+        <p class="open-hours"><i class="bi-clock"></i> Open {{ menu.opening_time }} - {{ menu.closing_time }}</p>
+    {% else %}
+        <p class="open-hours"><i class="bi-clock-fill"></i> Closed</p>
+    {% endif %}
+    {% if menu.today %}
+    <div class="col-sm-2">
+        <div class="alert {% if menu.is_open %}alert-info{% else %}alert-danger{% endif %} currently-open" role="alert">
+            {% if menu.is_open %}
+                <i class="bi-check-circle-fill"></i> Open
+            {% else %}
+                <i class="bi-x-circle-fill"></i> Closed
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
     {% if empty %}
         <div class="alert alert-warning">
             No menus available for this date & location.
+        </div>
+    {% elif menu.closed %}
+        <div class="alert alert-warning">
+            This location is closed for this date.
         </div>
     {% else %}
         <ol class="nav nav-tabs" id="period-tabs" role="tablist">
