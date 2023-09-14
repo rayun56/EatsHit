@@ -52,7 +52,7 @@ class MenuPeriod(models.Model):
         return {
             'id': self.period_id,
             'name': self.name,
-            'categories': [category.to_dict() for category in self.categories.all()]
+            'categories': [category.to_dict() for category in self.categories.all() if len(category.items.all()) > 0]
         }
 
 
