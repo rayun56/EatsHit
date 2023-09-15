@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.utils import timezone
 
-from .models import DiningLocation, Menu
+from .models import DiningLocation, Menu, Changelog
 
 
 def index(request):
@@ -17,9 +17,18 @@ def index(request):
         }
         if menu_date not in dates and men.date >= today:
             dates.append(menu_date)
+
+    # Handle changelog
+    changelog = Changelog.objects.all().order_by('-date')
+    changes = {}
+    for change in changelog:
+        if change.date not in changes.keys():
+            changes[change.date] = []
+        changes[change.date].append(change.change)
     return render(request, 'docmtu/index.html', {
         'locations': DiningLocation.objects.all(),
-        'dates': dates
+        'dates': dates,
+        'changes': changes
     })
 
 

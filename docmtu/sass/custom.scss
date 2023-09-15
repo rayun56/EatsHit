@@ -4,6 +4,10 @@
     @include button-outline-variant(#ffffff, lighten($body-bg-dark, 7.5%), #ffffff, #ffffff);
 };
 
+.btn-outline-success {
+    @include button-outline-variant(#41d80d, lighten($body-bg-dark, 7.5%), #41d80d, #41d80d);
+}
+
 .period-tab {
     color: #ffffff;
     &:hover {
@@ -34,6 +38,10 @@ p {
     font-family: 'Carlito', sans-serif;
     text-align: center;
 };
+
+.offcanvas-body > li {
+    font-family: 'Carlito', sans-serif;
+}
 
 #about-text > p, p.open-hours {
     font-size: 1.2rem;

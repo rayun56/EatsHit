@@ -11867,6 +11867,23 @@ textarea.form-control-lg {
   --bs-gradient: none;
 }
 
+.btn-outline-success {
+  --bs-btn-color: #41d80d;
+  --bs-btn-border-color: #41d80d;
+  --bs-btn-hover-color: #32383e;
+  --bs-btn-hover-bg: #41d80d;
+  --bs-btn-hover-border-color: #41d80d;
+  --bs-btn-focus-shadow-rgb: 65, 216, 13;
+  --bs-btn-active-color: #000;
+  --bs-btn-active-bg: #41d80d;
+  --bs-btn-active-border-color: #41d80d;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #41d80d;
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: #41d80d;
+  --bs-gradient: none;
+}
+
 .period-tab {
   color: #ffffff;
 }
@@ -11896,6 +11913,10 @@ h1, .h1, h5.card-title, .card-title.h5, .card-text, .currently-open {
 p {
   font-family: "Carlito", sans-serif;
   text-align: center;
+}
+
+.offcanvas-body > li {
+  font-family: "Carlito", sans-serif;
 }
 
 #about-text > p, p.open-hours {

@@ -102,3 +102,11 @@ class Change(models.Model):
 
     def __str__(self):
         return f'{self.menu.date} - {self.change}'
+
+
+class Changelog(models.Model):
+    date = models.DateField()
+    change = models.TextField()
+
+    def __str__(self):
+        return f'{self.date} - {self.change}'

@@ -17,6 +17,29 @@
 {% endblock %}
 
 {% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-outline-success float-end" data-bs-toggle="offcanvas" data-bs-target="#changelog-offcanvas" aria-controls="changelog-offcanvas">Changelog</button>
+            </div>
+        </div>
+    </div>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="changelog-offcanvas">
+        <div class="offcanvas-header">
+            <h2>Changelog</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            {% for change_date, value in changes.items %}
+                <h3>{{ change_date }}</h3>
+                <ul>
+                    {% for change in value %}
+                        <li>{{ change }}</li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
     <div class="container">
         <div class="row justify-content-sm-center mt-2">
             <div class="col-sm-auto d-flex justify-content-center">
