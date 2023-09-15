@@ -19,5 +19,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('', include('docmtu.urls')),
-    path('admin/', admin.site.urls),
+    path('super-secret-admin-aint-nobody-gonna-find-this/', admin.site.urls),
 ]
