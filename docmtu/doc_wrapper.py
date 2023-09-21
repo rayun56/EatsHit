@@ -22,9 +22,9 @@ class DOC:
             j = r.json()
             self.last_request_time = j['request_time']
             return r.json()
-        elif r.status_code == 502:
+        elif r.status_code == 502 or r.status_code == 504:
             self.retry_count += 1
-            if self.retry_count > 5:
+            if self.retry_count > 16:
                 raise TimeoutError(f'Too many retries: {self.retry_count}. Error 502: {r.text.strip()}')
             return self.get(path, params)
         else:
