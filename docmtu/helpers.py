@@ -2,6 +2,8 @@ import datetime
 import hashlib
 import time
 
+from django.db import connection
+
 from .models import MenuItem, DiningLocation, Menu
 from .doc_wrapper import DOC
 
@@ -53,7 +55,10 @@ def _collect_menu_worker(date: datetime.date):
                 menu.periods.remove(period)
                 continue
             menu_categories = men['categories']
+            items_to_add = []
+            menucategory_items = []
             for category in menu_categories:
+                category_items = []
                 cat, _ = period.categories.get_or_create(name=category['name'], category_id=category['id'])
                 for item in category['items']:
                     if type(item['calories']) == float:
@@ -63,12 +68,19 @@ def _collect_menu_worker(date: datetime.date):
                     item['calories'] = int(item['calories'])
                     item['name'] = item['name'].strip()
                     h = hashlib.md5(f"{item['name']}{item['portion']}".encode()).hexdigest()[:16]
-                    menu_item, _ = MenuItem.objects.get_or_create(hash=h, defaults={
-                        'name': item['name'],
-                        'portion': item['portion'],
-                        'calories': item['calories']
-                    })
-                    cat.items.add(menu_item)
+                    category_items.append((item['name'], item['portion'], item['calories'], h))
+                cat_id = cat.id
+                hashes = [(cat_id, i[3]) for i in items_to_add]
+                items_to_add.extend(category_items)
+                menucategory_items.extend(hashes)
+            connection.cursor().execute("BEGIN TRANSACTION")
+            connection.cursor().executemany("""INSERT OR IGNORE INTO docmtu_menuitem 
+                (name, portion, calories, hash) VALUES (?, ?, ?, ?)
+            """, items_to_add)
+            connection.cursor().executemany("""INSERT OR IGNORE INTO docmtu_menucategory_items
+                (menucategory_id, menuitem_id) VALUES (?, ?)
+            """, menucategory_items)
+            connection.cursor().execute("COMMIT")
         menu.visible = True
         menu.save()
         print(f"  Done!")
