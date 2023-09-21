@@ -42,7 +42,13 @@ def _collect_menu_worker(date: datetime.date):
             menu.periods.get_or_create(period_id=period['id'], name=period['name'])
         for period in menu.periods.all():
             print(f"    Collecting menu for {period.name}")
-            men = doc.get_menu(menu_location.location_id, period.period_id, date)
+            try:
+                men = doc.get_menu(menu_location.location_id, period.period_id, date)
+            except TimeoutError:
+                print(f"      Too many retries, removing this period for now")
+                period.categories.clear()
+                menu.periods.remove(period)
+                continue
             if not men:
                 menu.periods.remove(period)
                 continue

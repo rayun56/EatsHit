@@ -14,6 +14,7 @@ class DOC:
         self.site = None
         self.site_id = None
         self.last_request_time = 0
+        self.retry_count = 0
         self._get_site_id(site)
 
     def get(self, path, params=None):
@@ -22,6 +23,11 @@ class DOC:
             j = r.json()
             self.last_request_time = j['request_time']
             return r.json()
+        elif r.status_code == 502:
+            self.retry_count += 1
+            if self.retry_count > 5:
+                raise TimeoutError(f'Too many retries: {self.retry_count}. Error 502: {r.text.strip()}')
+            return self.get(path, params)
         else:
             raise Exception(f'Error {r.status_code}: {r.text}')
 
