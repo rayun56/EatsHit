@@ -8,8 +8,7 @@ class DOC:
         self.url = "https://api.dineoncampus.com/v1"
         self.headers = {
             'Accept': 'application/json',
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_5_1) AppleWebKit/605.1.15 '
-                          '(KHTML, like Gecko) Version/16.5 Safari/605.1.15'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0'
         }
         self.site = None
         self.site_id = None
