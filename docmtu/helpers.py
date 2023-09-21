@@ -42,7 +42,11 @@ def _collect_menu_worker(date: datetime.date):
             menu.periods.get_or_create(period_id=period['id'], name=period['name'])
         for period in menu.periods.all():
             print(f"    Collecting menu for {period.name}")
-            menu_categories = doc.get_menu(menu_location.location_id, period.period_id, date)['categories']
+            men = doc.get_menu(menu_location.location_id, period.period_id, date)
+            if not men:
+                menu.periods.remove(period)
+                continue
+            menu_categories = men['categories']
             for category in menu_categories:
                 cat, _ = period.categories.get_or_create(name=category['name'], category_id=category['id'])
                 for item in category['items']:
