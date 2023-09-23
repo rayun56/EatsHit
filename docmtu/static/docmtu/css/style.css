@@ -11915,6 +11915,11 @@ p {
   text-align: center;
 }
 
+.legal-text {
+  font-size: 0.9rem;
+  color: #b3b3b3;
+}
+
 .offcanvas-body > li {
   font-family: "Carlito", sans-serif;
 }
