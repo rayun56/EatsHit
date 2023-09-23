@@ -88,7 +88,7 @@ def _collect_menu_worker(date: datetime.date):
             menu.save()
             print(f"  Done!")
     print(f"Done!")
-    print(f"Total reported DOC API request time: {doc.total_request_time:.02f} seconds")
+    print(f"Total reported DOC API request time: {doc.total_reported_request_time:.02f} seconds")
     print(f"Total actual request time: {doc.total_response_time:.02f} seconds")
 
 
