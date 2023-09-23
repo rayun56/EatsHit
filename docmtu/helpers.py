@@ -70,7 +70,7 @@ def _collect_menu_worker(date: datetime.date):
                     h = hashlib.md5(f"{item['name']}{item['portion']}".encode()).hexdigest()[:16]
                     category_items.append((item['name'], item['portion'], item['calories'], h))
                 cat_id = cat.id
-                hashes = [(cat_id, i[3]) for i in items_to_add]
+                hashes = [(cat_id, i[3]) for i in category_items]
                 items_to_add.extend(category_items)
                 menucategory_items.extend(hashes)
             connection.cursor().execute("BEGIN TRANSACTION")
