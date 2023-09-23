@@ -1,4 +1,5 @@
 import datetime
+import time
 
 import requests
 
@@ -12,17 +13,20 @@ class DOC:
         }
         self.site = None
         self.site_id = None
-        self.last_request_time = 0
-        self.total_request_time = 0
+        self.last_request_time = 0.0
+        self.total_reported_request_time = 0.0
+        self.total_response_time = 0.0
         self.retry_count = 0
         self._get_site_id(site)
 
     def get(self, path, params=None):
+        st = time.perf_counter()
         r = requests.get(self.url + path, headers=self.headers, params=params)
         if r.status_code == 200:
             j = r.json()
             self.last_request_time = j['request_time']
-            self.total_request_time += j['request_time']
+            self.total_reported_request_time += j['request_time']
+            self.total_response_time += time.perf_counter() - st
             return r.json()
         elif r.status_code == 502 or r.status_code == 504:
             self.retry_count += 1
