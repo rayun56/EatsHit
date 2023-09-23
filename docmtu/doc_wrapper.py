@@ -13,6 +13,7 @@ class DOC:
         self.site = None
         self.site_id = None
         self.last_request_time = 0
+        self.total_request_time = 0
         self.retry_count = 0
         self._get_site_id(site)
 
@@ -21,6 +22,7 @@ class DOC:
         if r.status_code == 200:
             j = r.json()
             self.last_request_time = j['request_time']
+            self.total_request_time += j['request_time']
             return r.json()
         elif r.status_code == 502 or r.status_code == 504:
             self.retry_count += 1

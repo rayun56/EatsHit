@@ -2,6 +2,8 @@ import datetime
 import hashlib
 
 from django.db import models
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 
 
 class MenuItem(models.Model):
@@ -54,6 +56,13 @@ class MenuPeriod(models.Model):
             'name': self.name,
             'categories': [category.to_dict() for category in self.categories.all() if len(category.items.all()) > 0]
         }
+
+
+@receiver(pre_delete, sender=MenuPeriod)
+def pre_delete_period(sender, instance, **kwargs):
+    if instance.categories.all().exists():
+        for category in instance.categories.all():
+            category.delete()
 
 
 class DiningLocation(models.Model):
