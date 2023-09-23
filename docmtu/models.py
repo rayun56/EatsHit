@@ -36,7 +36,7 @@ class MenuCategory(models.Model):
         return {
             'name': self.name,
             'id': self.category_id,
-            'items': [item.to_dict() for item in self.items.all()]
+            'items': sorted([item.to_dict() for item in self.items.all()], key=lambda d: d['calories'], reverse=True)
         }
 
 
