@@ -4,7 +4,7 @@
 {% block nav_index %}active{% endblock %}
 
 {% block head %}
-    <script src="{% static 'docmtu/js/index.js' %}"></script>
+    <script src="{% static 'docmtu/js/index.js' %}?version=1"></script>
 {% endblock %}
 
 {% block embed %}
@@ -49,7 +49,12 @@
                     </button>
                     <ul class="dropdown-menu">
                         {% for location in locations %}
-                            <li><button class="dropdown-item location-dropdown-item" id="location-{{ location.location_id }}" hx-post="{% url 'docmtu:location' %}" hx-target="#location-content" hx-swap="innerHTML">
+                            <li><button class="dropdown-item location-dropdown-item"
+                                        id="location-{{ location.location_id }}"
+                                        hx-post="{% url 'docmtu:location' %}"
+                                        hx-target="#location-content"
+                                        hx-swap="innerHTML"
+                                        hx-trigger="click, doLoc-{{ location.location_id }} from:body">
                                 {{ location.name }}
                             </button></li>
                         {% empty %}

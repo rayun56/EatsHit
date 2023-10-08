@@ -2,6 +2,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     document.body.addEventListener("updateInfo", function(){
         let info = document.getElementById("menuData")
         let loc = info.getAttribute("location_id");
+        localStorage.setItem("location_id", loc);
         let date = info.getAttribute("date_id");
         for (let i = 0; i < document.getElementsByClassName("date-dropdown-item").length; i++) {
             let id = document.getElementsByClassName("date-dropdown-item")[i].id;
@@ -21,4 +22,11 @@ window.addEventListener("DOMContentLoaded", (event) => {
         document.getElementById("date-dropdown-main").innerHTML = info.getAttribute("date_str");
         document.getElementById("date-dropdown-main").style.display = "block";
     });
+
+    // Check for location_id in local storage
+    if (!(localStorage.getItem("location_id") === null)) {
+        // POST request to get menu info
+        let loc = localStorage.getItem("location_id");
+        document.body.dispatchEvent(new CustomEvent("doLoc-" + loc));
+    }
 });
