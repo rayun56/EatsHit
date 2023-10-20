@@ -26,6 +26,28 @@
     {% endblock %}
 </head>
 <body id="body" data-bs-theme="dark">
+    <div class="container-fluid bg-secondary justify-content-center pb-2">
+        <p class="text-center">
+            Hey all, Ryan here<br>
+
+            EatsHit will be shutting down effective December 16th, 2023.
+            I will not be maintaining EatsHit and I cannot guarantee that the information on it will be accurate.<br>
+            Instead, I'd recommend using <a href="https://dineoncampus.com/MTU/whats-on-the-menu" class="link-light">the official site</a> or the official apps below.<br>
+            It's been fun. Thank you all for the compliments, suggestions, and memes. o/
+        </p>
+        <div class="row justify-content-center text-center">
+            <div class="col-sm-auto">
+                <a href="https://play.google.com/store/apps/details?id=com.roaringsky.dineoncampus">
+                    <img src="{% static 'docmtu/images/google-play-badge.png' %}" style="max-width: 220px; height: auto" class="mt-1">
+                </a>
+            </div>
+            <div class="col-sm-auto">
+                <a href="https://apps.apple.com/us/app/dine-on-campus/id1170602720">
+                    <img src="{% static 'docmtu/images/app-store-badge.png' %}" style="max-width: 200px" class="mt-1">
+                </a>
+            </div>
+        </div>
+    </div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'docmtu:index' %}">
