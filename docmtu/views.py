@@ -72,3 +72,7 @@ def date(request):
 
 def about(request):
     return render(request, 'docmtu/about.html')
+
+
+def done(request):
+    return render(request, 'docmtu/done.html')
